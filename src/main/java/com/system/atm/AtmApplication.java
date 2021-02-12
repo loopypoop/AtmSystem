@@ -23,15 +23,14 @@ public class AtmApplication {
         ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
         Scanner in = new Scanner(System.in);
 
-        IBankService service = new BankService();
-
+//        IBankService service = new BankService();
         Card card = context.getBean("card", Card.class);
         card.setCardNumber("1234");
         card.setBalance(21.11);
         card.setCvv("212");
         card.setExpireDate("21/02");
         card.setPin("1144");
-
+//
         Account account = context.getBean("account", Account.class);
         account.setUsername("User");
         account.setPassword("user");
@@ -44,44 +43,48 @@ public class AtmApplication {
         bank.setCountry("Kazakhstan");
         bank.setPostalCode("003Z3F7");
 
+        IBankService service = context.getBean("bankService", BankService.class);
+
         System.out.print("Login: ");
         String currentUsername = in.next();
         System.out.print("Password: ");
         String currentPassword = in.next();
-        Account currentUser;
+        Account currentUser = null;
+
+        boolean isAuth = false;
 
         for(Account acc : bank.getClients()) {
             if (currentUsername.equals(acc.getUsername()) && currentPassword.equals(acc.getPassword())) {
                 currentUser = account;
-
-                int choice = -1;
-
-                while (choice != 0) {
-                    System.out.println("1. Withdraw");
-                    System.out.println("2. Top up");
-                    System.out.println("3. Check Balance");
-                    System.out.println("0. Exit");
-
-                    choice = in.nextInt();
-
-                    switch (choice) {
-                        case 1:
-                            service.withdraw(currentUser);
-                            break;
-                        case 2:
-                            service.topUp(currentUser);
-                            break;
-                        case 3:
-                            System.out.println("Balance: $" + service.checkBalance(currentUser));
-                            break;
-                        case 0:
-                            return;
-                        default:
-                            break;
-                    }
-                }
+                isAuth = true;
             }
         }
 
+        int choice = -1;
+
+        while (choice != 0 && isAuth) {
+            System.out.println("1. Withdraw");
+            System.out.println("2. Top up");
+            System.out.println("3. Check Balance");
+            System.out.println("0. Exit");
+
+            choice = in.nextInt();
+
+            switch (choice) {
+                case 1:
+                    service.withdraw(currentUser);
+                    break;
+                case 2:
+                    service.topUp(currentUser);
+                    break;
+                case 3:
+                    System.out.println("Balance: $" + service.checkBalance(currentUser));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        ((ClassPathXmlApplicationContext) context).close();
     }
 }
