@@ -1,13 +1,22 @@
 package com.system.atm.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Account {
 
     private String username;
     private String password;
     private String email;
+    @Qualifier("card")
     private Card card;
 
-    public Account(String username, String password, String email, Card card) {
+    @Autowired
+    public Account(@Value("${account.username}") String username,@Value("${account.password}") String password,
+                   @Value("${account.email}") String email, Card card) {
         this.username = username;
         this.password = password;
         this.email = email;

@@ -1,5 +1,10 @@
 package com.system.atm.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Card {
 
     private String cardNumber;
@@ -8,7 +13,10 @@ public class Card {
     private String cvv;
     private double balance;
 
-    public Card(String cardNumber, String pin, String expireDate, String cvv, double balance) {
+    @Autowired
+    public Card(@Value("${card.cardNumber}") String cardNumber, @Value("${card.pin}")String pin,
+                @Value("${card.expireDate}") String expireDate, @Value("${card.cvv}") String cvv,
+                @Value("${card.balance}") double balance) {
         this.cardNumber = cardNumber;
         this.pin = pin;
         this.expireDate = expireDate;

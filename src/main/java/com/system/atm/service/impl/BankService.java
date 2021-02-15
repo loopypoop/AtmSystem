@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.system.atm.service.IBankService;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +18,7 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+@Service
 public class BankService implements IBankService {
 
     private final String url = "jdbc:postgresql://localhost/atm";
