@@ -32,7 +32,8 @@ public class AtmApplication {
         Account account = context.getBean("account", Account.class);
         System.out.println(account.getEmail());
 
-
+        Bank bank = context.getBean("bank", Bank.class);
+        System.out.println(bank.getClients().get(0).getUsername());
 
         //        card.setCardNumber("1234");
 //        card.setBalance(21.11);

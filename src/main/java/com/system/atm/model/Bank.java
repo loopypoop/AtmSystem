@@ -1,20 +1,23 @@
 package com.system.atm.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@ComponentScan
+@Component
 public class Bank {
-    @Autowired
     private List<Account> clients;
     private String city;
     private String postalCode;
     private String country;
 
-    public Bank(List<Account> clients, String city, String postalCode, String country) {
+    @Autowired
+    public Bank(List<Account> clients, @Value("${bank.city}") String city,
+                @Value("${bank.postalCode}") String postalCode,
+                @Value("${bank.country}") String country) {
         this.clients = clients;
         this.city = city;
         this.postalCode = postalCode;
